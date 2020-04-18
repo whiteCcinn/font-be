@@ -1,1 +1,6 @@
 /target
+/data
+/idea/
+Cargo.lock
+.env
+migrations
