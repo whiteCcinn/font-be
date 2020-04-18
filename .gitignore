@@ -1,6 +1,6 @@
 /target
 /data
-/idea/
+/.idea/
 Cargo.lock
 .env
 migrations
