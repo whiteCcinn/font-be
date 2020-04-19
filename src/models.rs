@@ -8,8 +8,6 @@ pub struct Fonts {
     pub updated_at: i32,
 }
 
-
-
 #[derive(Insertable)]
 #[table_name="fonts"]
 pub struct NewFonts<'a> {

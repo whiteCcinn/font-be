@@ -1,9 +1,41 @@
-use actix_web::{get, middleware, web, App, HttpRequest, HttpResponse, HttpServer};
+extern crate font_be;
+extern crate diesel;
+extern crate serde;
 
-#[get("/search/{fonts}")]
-async fn search(req: HttpRequest, fonts: web::Path<String>) -> String {
+use actix_web::{get, middleware, web, App, HttpRequest, HttpResponse, HttpServer, Responder};
+
+use self::font_be::*;
+use self::models::*;
+use self::diesel::prelude::*;
+
+use serde::Serialize;
+
+#[derive(Serialize)]
+struct SearchResult {
+    id: i32,
+    name: String,
+}
+
+#[get("/search/{word}")]
+async fn search(req: HttpRequest, word: web::Path<String>) -> impl Responder {
     println!("REQ: {:?}", req);
-    format!("Hello: {}!\r\n", fonts)
+    println!("{:?}", word);
+
+    use font_be::schema::fonts::dsl::*;
+    let connection = establish_connection();
+
+    let results = fonts.filter(name.eq(word.as_str())).load::<Fonts>(&connection)
+        .expect("Error loading Fonts");
+
+    println!("Displaying {} Fonts", results.len());
+
+    let mut vec: Vec<SearchResult> = Vec::new();
+
+    for item in results {
+        vec.push(SearchResult { id: item.id, name: item.name });
+    }
+
+    return web::Json(vec);
 }
 
 async fn index_async(req: HttpRequest) -> &'static str {
