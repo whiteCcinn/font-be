@@ -21,7 +21,7 @@ pub fn establish_connection() -> PgConnection {
         .expect(&format!("Error connecting to {}", database_url))
 }
 
-pub fn create_post<'a>(conn: &PgConnection, name: &'a str, created_at: i32, updated_at: i32) -> Fonts {
+pub fn create_post(conn: &PgConnection, name: &str, created_at: i32, updated_at: i32) -> Fonts {
     use schema::fonts;
 
     let new_fonts = NewFonts {
