@@ -20,4 +20,19 @@ cargo install diesel_cli --no-default-features --features postgres
 
 # install table for db
 diesel migration run
+
+# insert data
+cargo run --bin insert_fonts
+
+# start
+
+cargo run
 ```
+
+Open browser access `http://localhost:5678/`
+
+# API
+
+- http://localhost:5678/search/{word}
+- http://localhost:5678/test
+- http://localhost:5678/
